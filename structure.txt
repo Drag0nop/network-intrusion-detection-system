@@ -1,0 +1,26 @@
+network_intrusion_detection/
+│
+├── data/
+│   ├── raw/
+│   │   └── nsl_kdd.csv
+│   ├── processed/
+│   │   └── cleaned_data.csv
+│
+├── models/
+│   └── intrusion_model.pkl
+│
+├── scripts/
+│   ├── data_preprocessing.py
+│   ├── feature_engineering.py
+│   ├── train_model.py
+│   ├── evaluate_model.py
+│
+├── app.py
+├── requirements.txt
+├── templates/
+│   └── index.html
+├── static/
+│   ├── css/
+│   └── js/
+│
+└── README.md
