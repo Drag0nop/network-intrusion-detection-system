@@ -11,16 +11,12 @@ network_intrusion_detection/
 │
 ├── scripts/
 │   ├── data_preprocessing.py
-│   ├── feature_engineering.py
 │   ├── train_model.py
-│   ├── evaluate_model.py
+|   └──generate_confusion_matrix.py
 │
 ├── app.py
 ├── requirements.txt
 ├── templates/
 │   └── index.html
-├── static/
-│   ├── css/
-│   └── js/
 │
 └── README.md
