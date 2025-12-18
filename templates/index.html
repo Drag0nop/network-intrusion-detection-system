@@ -77,7 +77,8 @@
             transition: color 0.3s;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group select {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
@@ -87,14 +88,11 @@
             background: white;
         }
 
-        .input-group input:focus {
+        .input-group input:focus,
+        .input-group select:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .input-group input:focus + label {
-            color: #667eea;
         }
 
         .submit-btn {
@@ -126,7 +124,6 @@
             border-radius: 15px;
             text-align: center;
             animation: fadeIn 0.5s ease-out;
-            display: none;
         }
 
         @keyframes fadeIn {
@@ -166,25 +163,80 @@
             margin-bottom: 15px;
         }
 
-        .loading {
-            display: none;
-            text-align: center;
+        .error-msg {
+            color: #eb3349;
+            background: #ffe0e0;
+            padding: 15px;
+            border-radius: 10px;
             margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
         }
 
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 600;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .plot-container {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .plot-container img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        #alerts {
+            list-style: none;
+            padding: 0;
+        }
+
+        #alerts li {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            animation: slideInAlert 0.3s ease-out;
+        }
+
+        @keyframes slideInAlert {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .probability-bar {
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+            height: 30px;
+        }
+
+        .probability-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            transition: width 0.5s ease-out;
         }
     </style>
 </head>
@@ -192,105 +244,186 @@
     <div class="container">
         <h1>🛡️ NIDS</h1>
         <p class="subtitle">Network Intrusion Detection System</p>
-        
-        <form id="nidsForm" method="POST">
+
+        <!-- ================= FORM ================= -->
+        <form method="POST">
             <div class="form-grid">
+
                 <div class="input-group">
-                    <label for="f1">Duration</label>
-                    <input type="text" id="f1" name="f1" placeholder="0" required>
+                    <label>Duration</label>
+                    <input type="number" name="duration" step="any" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f2">Protocol</label>
-                    <input type="text" id="f2" name="f2" placeholder="tcp" required>
+                    <label>Protocol</label>
+                    <select name="protocol" required>
+                        <option value="">Select Protocol</option>
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
+                        <option value="icmp">ICMP</option>
+                    </select>
                 </div>
+
                 <div class="input-group">
-                    <label for="f3">Service</label>
-                    <input type="text" id="f3" name="f3" placeholder="http" required>
+                    <label>Service</label>
+                    <select name="service" required>
+                        <option value="">Select Service</option>
+                        <option value="http">HTTP</option>
+                        <option value="ftp">FTP</option>
+                        <option value="smtp">SMTP</option>
+                        <option value="ssh">SSH</option>
+                        <option value="telnet">Telnet</option>
+                        <option value="dns">DNS</option>
+                        <option value="other">Other</option>
+                        <option value="private">Private</option>
+                    </select>
                 </div>
+
                 <div class="input-group">
-                    <label for="f4">Flag</label>
-                    <input type="text" id="f4" name="f4" placeholder="SF" required>
+                    <label>Flag</label>
+                    <select name="flag" required>
+                        <option value="">Select Flag</option>
+                        <option value="SF">SF</option>
+                        <option value="S0">S0</option>
+                        <option value="REJ">REJ</option>
+                        <option value="RSTR">RSTR</option>
+                        <option value="RSTO">RSTO</option>
+                        <option value="S1">S1</option>
+                        <option value="S2">S2</option>
+                        <option value="S3">S3</option>
+                    </select>
                 </div>
+
                 <div class="input-group">
-                    <label for="f5">Src Bytes</label>
-                    <input type="text" id="f5" name="f5" placeholder="0" required>
+                    <label>Src Bytes</label>
+                    <input type="number" name="src_bytes" step="any" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f6">Dst Bytes</label>
-                    <input type="text" id="f6" name="f6" placeholder="0" required>
+                    <label>Dst Bytes</label>
+                    <input type="number" name="dst_bytes" step="any" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f7">Count</label>
-                    <input type="text" id="f7" name="f7" placeholder="0" required>
+                    <label>Count</label>
+                    <input type="number" name="count" step="any" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f8">Srv Count</label>
-                    <input type="text" id="f8" name="f8" placeholder="0" required>
+                    <label>Srv Count</label>
+                    <input type="number" name="srv_count" step="any" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f9">Same Srv Rate</label>
-                    <input type="text" id="f9" name="f9" placeholder="0.0" required>
+                    <label>Same Srv Rate</label>
+                    <input type="number" name="same_srv_rate" step="any" min="0" max="1" required>
                 </div>
+
                 <div class="input-group">
-                    <label for="f10">Diff Srv Rate</label>
-                    <input type="text" id="f10" name="f10" placeholder="0.0" required>
+                    <label>Diff Srv Rate</label>
+                    <input type="number" name="diff_srv_rate" step="any" min="0" max="1" required>
                 </div>
+
             </div>
-            
+
             <button type="submit" class="submit-btn">Analyze Network Traffic</button>
         </form>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p style="margin-top: 15px; color: #667eea; font-weight: 600;">Analyzing...</p>
-        </div>
+        <!-- ================= ERROR ================= -->
+        {% if error %}
+        <div class="error-msg">{{ error }}</div>
+        {% endif %}
 
-        <div class="result-card" id="resultCard">
-            <div class="icon" id="resultIcon"></div>
-            <h2 id="prediction"></h2>
-            <p class="confidence">Confidence: <span id="confidence"></span></p>
+        <!-- ================= RESULT ================= -->
+        {% if prediction %}
+        <div class="result-card {{ 'threat' if 'Attack' in prediction else 'safe' }}">
+            <div class="icon">
+                {{ prediction.split()[0] }}
+            </div>
+            <h2>{{ prediction }}</h2>
+            <p class="confidence">Confidence: {{ confidence }}%</p>
         </div>
+        {% endif %}
+
+        <!-- ================= PROBABILITY DISTRIBUTION ================= -->
+        {% if probabilities %}
+        <h3 class="section-title">Attack Probability Distribution</h3>
+        <div class="plot-container">
+            <div style="padding: 10px;">
+                <div style="margin-bottom: 15px;">
+                    <strong>Normal:</strong>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ probabilities.Normal * 100 }}%; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                            {{ "%.1f"|format(probabilities.Normal * 100) }}%
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>DoS:</strong>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ probabilities.DoS * 100 }}%; background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);">
+                            {{ "%.1f"|format(probabilities.DoS * 100) }}%
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Probe:</strong>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ probabilities.Probe * 100 }}%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            {{ "%.1f"|format(probabilities.Probe * 100) }}%
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>R2L:</strong>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ probabilities.R2L * 100 }}%; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            {{ "%.1f"|format(probabilities.R2L * 100) }}%
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>U2R:</strong>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ probabilities.U2R * 100 }}%; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                            {{ "%.1f"|format(probabilities.U2R * 100) }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ================= LIVE ALERTS ================= -->
+        <h3 class="section-title">🚨 Live Intrusion Alerts</h3>
+        <ul id="alerts">
+            <li style="background: #ccc; color: #666;">Monitoring network traffic...</li>
+        </ul>
     </div>
 
     <script>
-        const form = document.getElementById('nidsForm');
-        const loading = document.getElementById('loading');
-        const resultCard = document.getElementById('resultCard');
-        const predictionEl = document.getElementById('prediction');
-        const confidenceEl = document.getElementById('confidence');
-        const resultIcon = document.getElementById('resultIcon');
+        // Live alerts polling
+        setInterval(() => {
+            fetch('/alerts')
+                .then(res => res.json())
+                .then(data => {
+                    let ul = document.getElementById('alerts');
+                    if (data.length === 0) {
+                        ul.innerHTML = '<li style="background: #ccc; color: #666;">No threats detected</li>';
+                    } else {
+                        ul.innerHTML = "";
+                        data.forEach(a => {
+                            let li = document.createElement("li");
+                            li.innerText = `${a.type} | Confidence: ${a.confidence}%`;
+                            ul.appendChild(li);
+                        });
+                    }
+                })
+                .catch(err => console.error('Error fetching alerts:', err));
+        }, 3000);
 
-        form.addEventListener('submit', function(e) {
-            // If you want to add client-side validation or animations
-            loading.style.display = 'block';
-            resultCard.style.display = 'none';
-            
-            // For demo purposes only - remove this if using real backend
-            e.preventDefault();
-            
-            setTimeout(() => {
-                const isThreat = Math.random() > 0.5;
-                const confidence = Math.floor(Math.random() * 20 + 80);
-                
-                loading.style.display = 'none';
-                resultCard.style.display = 'block';
-                
-                if (isThreat) {
-                    resultCard.className = 'result-card threat';
-                    resultIcon.textContent = '⚠️';
-                    predictionEl.textContent = 'Threat Detected';
-                } else {
-                    resultCard.className = 'result-card safe';
-                    resultIcon.textContent = '✅';
-                    predictionEl.textContent = 'Normal Traffic';
-                }
-                
-                confidenceEl.textContent = confidence + '%';
-            }, 1500);
-        });
-
-        // Add input validation and formatting
-        document.querySelectorAll('input[type="text"]').forEach(input => {
+        // Input focus effects
+        document.querySelectorAll('input, select').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.querySelector('label').style.color = '#667eea';
             });
