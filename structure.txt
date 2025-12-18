@@ -3,7 +3,7 @@ network_intrusion_detection/
 ├── data/
 │   ├── raw/
 │   │   └── nsl_kdd.csv
-│   ├── processed/
+│   └── processed/
 │       └── cleaned_data.csv
 │
 ├── models/
