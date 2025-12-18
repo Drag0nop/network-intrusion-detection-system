@@ -65,6 +65,22 @@ network_intrusion_detection/
 
 ---
 
+## Features Explained
+- Manual Traffic Analysis
+- Probability  Distribution
+- Simulated Real-time IDS
+- Live Alerts
+
+---
+
+## Future Enhancements
+- Real packet sniffing using Npcap
+- Deep learning-based IDS(LSTM)
+- User authentication and access control
+- Docker-based deployment
+
+---
+
 ## 🚀 How to Run the Project
 
 ### 1️⃣ Clone the Repository
@@ -84,19 +100,3 @@ python app.py
 
 ### open your browser
 http://127.0.0.1:5000
-
----
-
-## Features Explained
-- Manual Traffic Analysis
-- Probability  Distribution
-- Simulated Real-time IDS
-- Live Alerts
-
----
-
-## Future Enhancements
-- Real packet sniffing using Npcap
-- Deep learning-based IDS(LSTM)
-- User authentication and access control
-- Docker-based deployment
