@@ -85,11 +85,15 @@ python app.py
 ### open your browser
 http://127.0.0.1:5000
 
+---
+
 ## Features Explained
 - Manual Traffic Analysis
 - Probability  Distribution
 - Simulated Real-time IDS
 - Live Alerts
+
+---
 
 ## Future Enhancements
 - Real packet sniffing using Npcap
