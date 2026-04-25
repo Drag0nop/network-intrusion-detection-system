@@ -11,7 +11,7 @@ df = pd.read_csv("data/processed/cleaned_data.csv")
 X = df.drop('class', axis=1)
 y = df['class']
 
-# ✅ STRATIFIED SPLIT (VERY IMPORTANT)
+# STRATIFIED SPLIT (VERY IMPORTANT)
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -20,11 +20,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-# ✅ BALANCED + STRONG RANDOM FOREST
+# BALANCED + STRONG RANDOM FOREST
 model = RandomForestClassifier(
     n_estimators=300,          # stronger ensemble
     random_state=42,
-    class_weight='balanced',  # 🔥 KEY FIX
+    class_weight='balanced',  #  KEY FIX
     n_jobs=-1
 )
 

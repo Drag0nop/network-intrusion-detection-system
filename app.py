@@ -140,9 +140,6 @@ def index():
         error=error
     )
 
-# ===============================
-# API FOR LIVE ALERTS
-# ===============================
 @app.route('/alerts')
 def get_alerts():
     return jsonify(alerts)
